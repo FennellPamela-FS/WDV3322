@@ -6,6 +6,11 @@ const cors = require('cors');
 const app = express();
 const userRoute = require('../routes/router');
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+require("dotenv").config();
+
+app.use(express.json());
+
 // app.use(express.json());
 const user = {};
 
