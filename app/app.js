@@ -1,10 +1,23 @@
 const express = require('express');
-const routes = require('../api/routes/routes');
-const app = express();
-const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
-app.use(express.json());
+const cors = require('cors');
+// const routes = require('../routes/router');
+// const routes = require('../api/routes/routes');
+const app = express();
+const userRoute = require('../routes/router');
+const bcrypt = require('bcrypt');
+// app.use(express.json());
 const user = {};
+
+// parsing without using body parser
+app.use(
+    express.urlencoded({
+        extended: true,
+    })
+);
+
+// middleware that all request are handled with json
+app.use(express.json());
 
 app.post('/signup', (req, res) => {
     //signup
@@ -43,18 +56,10 @@ app.post('/login', (req, res) => {
     });
 });
 
-// parsing wihtout using body parser
-app.use(
-    express.urlencoded({
-        extended: true,
-    })
-);
 
-// middleware that all request are handled with json
-app.use(express.json());
 
 // CORS
-app.use((req, res, next) => {
+app.use(cors(), (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
         'Access-Control-Allow-Headers',
@@ -74,8 +79,9 @@ app.get('/', (req, res, next) => {
     });
 });
 
-// routes - users
-app.use('/users', routes);
+// routes 
+app.use('/users', userRoute);
+// app.use('/users', routes);
 
 
 // add middleware for errors and bad url paths
@@ -95,8 +101,8 @@ app.use((error, req, res, next) => {
 });
 
 
-// connect to mongodb
-mongoose.connect(process.env.mongodbURL, (err) => {
+// // connect to mongodb
+mongoose.createConnection(process.env.mongodbURL, (err) => {
     if (err) {
         console.error("Error: ", err.message);
     }
@@ -105,6 +111,9 @@ mongoose.connect(process.env.mongodbURL, (err) => {
     }
 });
 
+// mongoose.connect(url, () => {
+//     console.log("MongoDB connection successful");
+// })
 
 module.exports = app;
 

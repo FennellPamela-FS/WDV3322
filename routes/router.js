@@ -1,4 +1,5 @@
 const express = require('express');
+const user = require('../api/model/user');
 // const router = require('../app/app');
 const router = express.Router();
 
@@ -34,3 +35,16 @@ router.get('/profile', (req, res) => {
 });
 
 module.exports = router;
+
+
+// findUser() pass in something where that something is an obj
+// findUser(obj)
+// that obj could be 
+// findUser({email: req.body.email})
+// or findUser({firstName: req.body.firstName})
+// but do it like the following so you can pass what is needed
+
+// const findUser = async (obj) = > {
+//     return await user.findOne(obj)  // some obj gets passed un
+// }
+
