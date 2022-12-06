@@ -45,8 +45,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-
-
+mongoose.set('strictQuery', false);
 
 // connect to mongodb
 mongoose.connect(process.env.mongodbURL, (err) => {
